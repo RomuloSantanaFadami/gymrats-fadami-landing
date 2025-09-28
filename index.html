@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GymRats – Desafio Fadami</title>
+  <meta name="description" content="Desafio divertido de exercícios do time – valendo prêmios!" />
+  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E%3Cdefs%3E%3ClinearGradient id="g" x1="0" y1="0" x2="1" y2="1"%3E%3Cstop offset="0%25" stop-color="#ffd400"/%3E%3Cstop offset="100%25" stop-color="#ff7a00"/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width="64" height="64" rx="12" fill="%23fff"/%3E%3Cpath d="M12 40 L24 20 L36 44 L52 20" fill="none" stroke="url(%23g)" stroke-width="6" stroke-linecap="round"/%3E%3Ctext x="32" y="38" font-family="Inter, Arial" font-weight="900" font-size="18" text-anchor="middle" fill="#111"%3EGR%3C/text%3E%3C/svg%3E' />
+  <style>
+    :root{
+      --white:#ffffff; --orange:#ff7a00; --yellow:#ffd400; --bg:#ffffff; --ink:#111827; --muted:#6b7280; --card:#ffffff; --ring: rgba(255,122,0,.25);
+      --s1:8px; --s2:12px; --s3:16px; --s4:24px; --s5:32px; --s6:48px; --s7:72px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    a{color:var(--orange);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    .btn{display:inline-block;padding:14px 22px;border-radius:999px;font-weight:700;letter-spacing:.2px}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--yellow));color:#111;box-shadow:0 8px 24px rgba(255,122,0,.25)}
+    .btn-primary:hover{filter:brightness(1.05)}
+    .btn-outline{border:2px solid var(--orange);color:var(--orange);background:transparent}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px dashed var(--orange);color:#9a5a00;padding:6px 12px;border-radius:999px;font-size:12px}
+    header{position:sticky;top:0;background:rgba(255,250,240,.8);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.04);z-index:40}
+    nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+    nav .brand{display:flex;align-items:center;gap:12px;font-weight:900}
+    nav .brand .dot{display:none}
+    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+    nav li a{font-weight:600;color:#353535}
+    .hero{position:relative;padding:80px 0 60px;overflow:hidden}
+    .hero .bg{position:absolute;inset:-40% -20% auto -20%;height:80%;background:radial-gradient(700px 300px at 20% 10%, rgba(255,212,0,.25), transparent 60%), radial-gradient(700px 300px at 80% 0%, rgba(255,122,0,.18), transparent 60%);filter:blur(30px);z-index:-1}
+    .hero .inner{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s4);align-items:center}
+    .hero h1{font-size:clamp(32px,3.6vw,56px);line-height:1.04;margin:16px 0}
+    .hero p{font-size:18px;color:#374151}
+    .statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+    .stat{background:var(--card);padding:16px;border-radius:20px;border:1px solid rgba(0,0,0,.06);box-shadow:0 6px 18px rgba(0,0,0,.04)}
+    .stat b{font-size:22px}
+    .phone{aspect-ratio:9/16;background:linear-gradient(180deg,#fff, #fff6d9);border:1px solid rgba(0,0,0,.08);border-radius:36px;box-shadow:0 30px 80px rgba(255,122,0,.25);padding:18px;display:flex;flex-direction:column;justify-content:space-between}
+    .screen{background:#111;border-radius:24px;height:100%;padding:18px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+    .chip{background:linear-gradient(135deg, #ffd400, #ffb300);color:#111;padding:8px 12px;border-radius:12px;font-weight:800;align-self:flex-start}
+    .feed{display:grid;gap:10px}
+    .feed .card{background:#1b1b1b;color:#f5f5f5;border-radius:16px;padding:12px;border:1px solid #333}
+    .section{padding:56px 0}
+    .section h2{font-size:clamp(24px,2.4vw,38px);margin:0 0 8px}
+    .section p.lead{color:#444;max-width:780px}
+    .grid{display:grid;gap:16px}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    .card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(0,0,0,.04)}
+    .card h3{margin:8px 0 6px}
+    .prize{display:flex;align-items:center;gap:12px}
+    .prize .medal{font-size:22px}
+    .callout{background:linear-gradient(135deg, rgba(255,212,0,.35), rgba(255,122,0,.35)); padding:18px;border:1px solid rgba(255,122,0,.35);border-radius:16px}
+    .list{margin:0;padding-left:18px}
+    .list li{margin:8px 0}
+    .footer{padding:32px 0;border-top:1px solid rgba(0,0,0,.06);font-size:14px;color:var(--muted)}
+    .bar{height:8px;background:linear-gradient(90deg,var(--yellow),var(--orange));border-radius:999px}
+    .pill{display:inline-block;background:#fff7e6;color:#9a5a00;border:1px solid rgba(255,122,0,.35);padding:6px 10px;border-radius:999px;font-weight:700;font-size:12px}
+    .note{font-size:14px;color:#444}
+    .faq details{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:12px}
+    .faq details+details{margin-top:12px}
+    .faq summary{font-weight:700;cursor:pointer}
+    @media (max-width: 900px){
+      .hero .inner{grid-template-columns:1fr}
+      .grid.cols-3{grid-template-columns:1fr}
+      .grid.cols-2{grid-template-columns:1fr}
+      .hero h1{font-size:38px}
+    }
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
+    .is-visible{opacity:1;transform:none}
+    .card, .btn, .stat{transition:transform .25s ease, box-shadow .25s ease}
+    .card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+    .btn:hover{transform:translateY(-1px)}
+    .stat:hover{transform:translateY(-2px)}
+    .mascot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#ffd400}
+    .mascot svg{width:100%;height:auto;filter:drop-shadow(0 12px 24px rgba(255,122,0,.35))}
+    .mascot .tip{font-size:12px;color:#ffd400}
+    .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:60}
+    .scroll-progress .scroll-bar{width:0;height:100%;background:linear-gradient(90deg,var(--yellow),var(--orange))}
+    .feed .card{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">
+          <svg width="132" height="28" viewBox="0 0 220 46" xmlns="http://www.w3.org/2000/svg" aria-label="GymRats" role="img">
+            <defs><linearGradient id="u" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffd400"/><stop offset="100%" stop-color="#ff7a00"/></linearGradient></defs>
+            <text x="0" y="26" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="900" fill="#111">GYMRATS</text>
+            <rect x="0" y="32" width="120" height="4" rx="2" fill="url(#u)"/>
+          </svg>
+        </div>
+        <ul>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#premios">Prêmios</a></li>
+          <li><a href="#regras">Regras</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div class="scroll-progress" aria-hidden="true"><div class="scroll-bar"></div></div>
+
+  <section class="hero">
+    <div class="bg"></div>
+    <div class="container inner">
+      <div>
+        <span class="badge">🚀 Início 01/10/2025 • 🏁 Final 31/12/2025</span>
+        <h1>Desafio GymRats <span style="background:linear-gradient(135deg,var(--orange),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent">Fadami</span></h1>
+        <p class="lead">Bora transformar suor em risadas, saúde e prêmios? Crie o hábito, registre seus treinos e participe de um ranking amistoso que recompensa consistência e atitude.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+          <a class="btn btn-primary" href="https://chat.whatsapp.com/Hfu0DekJg0QCmUs8SEBQ2o" target="_blank" rel="noopener">Entrar no grupo do WhatsApp</a>
+          <a class="btn btn-outline" href="#regras">Ver regras</a>
+        </div>
+        <div class="statgrid" style="margin-top:var(--s4)">
+          <div class="stat"><b>3 meses</b><br><span class="muted">de desafio</span></div>
+          <div class="stat"><b>Prêmios reais</b><br><span class="muted">todo mês e no final</span></div>
+          <div class="stat"><b>Iniciativa privada</b><br><span class="muted">sem vínculo com a empresa</span></div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="screen">
+          <div class="chip">Feed do app</div>
+          <div class="feed">
+            <div class="card">🏃‍♀️ <b>Carla</b> – 5km em 32:18 · print do Strava + selfie suada</div>
+            <div class="card">🤼 <b>Rafa</b> – Jiu-jitsu 60min · foto na academia com kimono</div>
+            <div class="card">⚽ <b>João</b> – Pelada 90min · vídeo curto em ação + selfie</div>
+          </div>
+          <div class="card" style="background:#0f0f0f;color:#ffd400">📸 Dica: você precisa <b>aparecer</b> na foto/vídeo!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="como-funciona">
+    <div class="container">
+      <h2>Como funciona</h2>
+      <p class="lead">Poste seus treinos no aplicativo <b>GymRats</b>. O grupo do WhatsApp é para avisos e resenha. Cada atividade válida soma pontos e alimenta os rankings <span class="pill">Mensal</span>, <span class="pill">Semanas vencidas</span> e <span class="pill">Geral</span>.</p>
+      <div class="grid cols-3" style="margin-top:18px">
+        <div class="card">
+          <h3>1) Faça exercício</h3>
+          <p>Qualquer atividade física conta: corrida, JJ, futebol, bike, natação, musculação... vale tudo que mova o esqueleto.</p>
+        </div>
+        <div class="card">
+          <h3>2) Registre</h3>
+          <p>Use app/smartwatch (Strava, Nike Run, Garmin, Apple/Google Fit) <em>ou</em> registre manualmente (quando não dá pra levar celular).</p>
+        </div>
+        <div class="card">
+          <h3>3) Publique no app</h3>
+          <p>Sempre com <b>prova</b> e você <b>aparecendo</b> na foto/vídeo. Sem prova, sem ponto. Sem você na mídia, também não. A publicação oficial é no <b>app GymRats</b>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="premios">
+    <div class="container">
+      <h2>Prêmios</h2>
+      <p class="lead">Brincadeira séria com recompensa real. No fim do ano e ao longo do caminho.</p>
+      <div class="grid cols-2" style="margin-top:16px">
+        <div class="card">
+          <h3>🏆 Ranking Geral (final do ano)</h3>
+          <div class="prize"><span class="medal">🥇</span> 1º – Smartwatch Xiaomi Redmi Watch 5 Active</div>
+          <div class="prize"><span class="medal">🥈</span> 2º – Fones Philips TAT1209BK/00 (TWS)</div>
+          <div class="prize"><span class="medal">🥉</span> 3º – Vale iFood de R$ 50</div>
+        </div>
+        <div class="card">
+          <h3>🎉 Durante o desafio</h3>
+          <ul class="list">
+            <li><b>Campeão do mês</b>: Vale iFood de R$ 50 (out., nov., dez.).</li>
+            <li><b>Quem mais venceu semanas</b> (final do ano): Vale‑presente <b>Centauro</b>.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:14px">📌 <b>Importante:</b> A competição é uma iniciativa <b>PRIVADA</b>, sem vínculo com a empresa.</div>
+    </div>
+  </section>
+
+  <section class="section" id="regras">
+    <div class="container">
+      <h2>Regras & Validação</h2>
+      <p class="lead">Para todo mundo brincar em paz – e sem tretas na hora do prêmio.</p>
+      <div class="grid cols-2" style="margin-top:16px">
+        <div class="card">
+          <h3>Registro automático (com app)</h3>
+          <ul class="list">
+            <li>Publique <b>print</b> do app ao final do treino + <b>selfie pós-treino</b> (ex.: espelho da academia, rosto suado pós-corrida, foto da turma no JJ).</li>
+            <li>Apps aceitos: Strava, Nike Run Club, Garmin, Polar, Suunto, Apple/Google Fit, entre outros equivalentes.</li>
+            <li>O print deve mostrar <b>data</b>, <b>duração</b> e <b>distância</b>/<b>tipo</b> do treino.</li>
+          </ul>
+          <div class="bar" style="margin-top:10px"></div>
+        </div>
+        <div class="card">
+          <h3>Registro manual (sem app)</h3>
+          <ul class="list">
+            <li>Envie <b>foto ou vídeo</b> seu <b>em ação</b> durante a atividade (alguém pode filmar/fotografar).</li>
+            <li>No texto, informe: <b>atividade</b>, <b>duração</b> e, quando fizer sentido, <b>distância</b> ou <b>local</b>.</li>
+            <li>Selfie sozinha sem prova de atividade em andamento <b>não</b> valida ponto.</li>
+          </ul>
+          <div class="bar" style="margin-top:10px"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Regras gerais</h3>
+        <ul class="list">
+          <li>Você precisa <b>aparecer</b> na foto/vídeo em <b>todas</b> as postagens (com ou sem app).</li>
+          <li><b>Duração mínima:</b> 30 minutos por treino.</li>
+          <li>Treinos que aparentem <b>quebra de regra</b> serão analisados pela <b>comunidade</b> e <u>só serão aceitos com aprovação da maioria</u>.</li>
+          <li><b>Duração mínima:</b> 30 minutos por treino.</li>
+          <li>Postagens retroativas são permitidas <b>em até 24h</b>, sempre com <b>prova datada</b> (print do app com data ou mídia criada no dia). Sem prova datada, não vale.</li>
+          <li>Respeito no grupo: bom humor liberado, falta de respeito não é tolarada.</li>
+        </ul>
+      </div>
+
+      <div class="grid cols-2" style="margin-top:16px">
+        <div class="card">
+          <h3>Exemplos de <u>postagem válida</u></h3>
+          <ul class="list">
+            <li>Print do Strava/Nike/… com data do dia + selfie pós‑treino.</li>
+            <li>Vídeo de 10–20s jogando futebol + selfie no campo, e texto com duração do jogo.</li>
+            <li>Foto durante a aula (jj/musculação) + breve descrição do que foi feito e tempo.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Exemplos de <u>atividades inválidas</u></h3>
+          <ul class="list">
+            <li>Selfie sem prova da atividade acontecendo.</li>
+            <li>Print antigo sem <b>data</b> visível ou com edição suspeita.</li>
+            <li>Cadastro manual sem foto/vídeo seu <b>em ação</b>.</li>
+            <li>Repost do mesmo treino para tentar pontuar duas vezes.</li>
+            <li>Foto antiga reaproveitada (sem metadados do dia).</li>
+            <li>Manipular GPS/velocidade/tempo do app.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>Pontuação & Rankings</h3>
+        <p class="note">A pontuação exata segue o resumo oficial fixado no grupo, com ênfase em <b>frequência</b> e <b>consistência</b>. Rankings: <span class="pill">Mensal</span>, <span class="pill">Semanas vencidas</span> e <span class="pill">Geral</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container faq">
+      <h2>FAQ</h2>
+      <details>
+        <summary>Quem pode participar?</summary>
+        <p>Qualquer pessoa convidada no grupo GymRats da Fadami.</p>
+      </details>
+      <details>
+        <summary>Perdi o horário e esqueci de postar, e agora?</summary>
+        <p>Poste depois <b>em até 24h</b> com <b>prova datada</b> (print do app com data ou mídia feita no dia). Sem data, sem ponto.</p>
+      </details>
+      <details>
+        <summary>Quais esportes valem?</summary>
+        <p>Qualquer atividade física honesta: corrida, JJ, futebol, bike, yoga, natação, musculação etc.</p>
+      </details>
+      <details>
+        <summary>Isso é iniciativa da empresa?</summary>
+        <p>Não. É uma ação <b>privada</b>, sem vínculo com a empresa.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="section" id="inspiracao">
+    <div class="container">
+      <h2>Por que participar?</h2>
+      <p class="lead">Mais saúde, mais energia e uma comunidade te puxando pra frente. Hábito é ciência aplicada: repetição + contexto.</p>
+      <div class="grid cols-3" style="margin-top:16px">
+        <div class="card"><h3>30 dias ≠ milagre</h3><p>Mas é um começo sólido. Pequenos treinos somam e criam identidade.</p></div>
+        <div class="card"><h3>Comunidade importa</h3><p>Compartilhar treinos aumenta a adesão. A zoeira saudável ajuda.</p></div>
+        <div class="card"><h3>Clareza</h3><p>Regras simples, prova simples. Sem burocracia, sem treta.</p></div>
+        <div class="card"><h3>Variedade</h3><p>Corpo e mente gostam de novidades. Alterne modalidades.</p></div>
+        <div class="card"><h3>Ritual</h3><p>Mesmo horário, menos fricção. Roupa pronta e partiu.</p></div>
+        <div class="card"><h3>Recuperação</h3><p>Dormir, hidratar, alongar. Jogo longo vence campeonato.</p></div>
+      </div>
+
+      <div class="grid cols-2" style="margin-top:var(--s5)">
+        <div class="card">
+          <h3>Dicas rápidas</h3>
+          <ul class="list">
+            <li>Prepare água/roupa no dia anterior.</li>
+            <li>Combine treino com alguém.</li>
+            <li>Use lembretes do app.</li>
+            <li>Não compense: siga o plano curto.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="exemplos-post">
+    <div class="container">
+      <h2>Exemplos de postagem</h2>
+      <div class="grid cols-2" style="margin-top:16px">
+        <div class="card">
+          <h3>✅ Válido</h3>
+          <p>"Corrida 5km – 31:45" + print do NRC com data de hoje + selfie pós-treino.</p>
+          <p>"JJ 60min" + foto na academia durante a aula + breve texto.</p>
+        </div>
+        <div class="card">
+          <h3>❌ Inválido</h3>
+          <p>Selfie no espelho sem nenhum registro/ação.</p>
+          <p>Print de atividade sem data (ou só com pace, sem data/duração).</p>
+          <p>Vídeo antigo reaproveitado (sem metadados do dia).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<footer class="footer">
+    <div class="container">
+      <div><b>GymRats – Fadami</b> • 2025 • Energia boa, suor e amizade 🔥</div>
+      <div style="margin-top:8px">Dúvidas? Fale no grupo do WhatsApp. 
+        <a href="https://chat.whatsapp.com/Hfu0DekJg0QCmUs8SEBQ2o" target="_blank" rel="noopener">Abrir grupo</a>
+      </div>
+    </div>
+  </footer>
+<script>
+  // Marca elementos para revelar
+  const toReveal = [
+    '.hero h1', '.hero .lead', '.stat', '.section h2', '.section .card', '.faq details'
+  ];
+  const els = document.querySelectorAll(toReveal.join(','));
+  els.forEach(el => el.classList.add('reveal'));
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+  },{threshold:.12});
+  els.forEach(el=>io.observe(el));
+</script>
+<script>
+  // Progress bar on scroll
+  (function(){
+    const bar = document.querySelector('.scroll-bar');
+    function onScroll(){
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop)/(h.scrollHeight - h.clientHeight);
+      if(bar) bar.style.width = (scrolled*100).toFixed(2)+'%';
+    }
+    document.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  })();
+</script>
+</body>
+</html>
