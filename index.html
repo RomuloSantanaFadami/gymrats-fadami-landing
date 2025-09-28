@@ -78,6 +78,21 @@
     .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:60}
     .scroll-progress .scroll-bar{width:0;height:100%;background:linear-gradient(90deg,var(--yellow),var(--orange))}
     .feed .card{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    /* Ajustes mobile */
+    @media (max-width:640px){
+      nav ul{gap:10px; overflow-x:auto; white-space:nowrap; -webkit-overflow-scrolling:touch; scrollbar-width:none}
+      nav ul::-webkit-scrollbar{display:none}
+      nav li a{font-size:13px}
+      nav{height:56px}
+      .hero{padding:48px 0 28px}
+      .hero h1{font-size:32px}
+      .section{padding:32px 0}
+      .section + .section{padding-top:24px}
+      .grid{gap:12px}
+      .statgrid{grid-template-columns:1fr;gap:10px;margin-top:12px}
+      .card{padding:16px}
+      .btn{padding:12px 16px}
+    }
   </style>
 </head>
 <body>
@@ -207,10 +222,12 @@
         <ul class="list">
           <li>Você precisa <b>aparecer</b> na foto/vídeo em <b>todas</b> as postagens (com ou sem app).</li>
           <li><b>Duração mínima:</b> 30 minutos por treino.</li>
-          <li>Treinos que aparentem <b>quebra de regra</b> serão analisados pela <b>comunidade</b> e <u>só serão aceitos com aprovação da maioria</u>.</li>
+          <li>Treinos que aparentem <b>fuga de regra</b> serão analisados pela <b>comunidade</b> e <u>só serão aceitos com aprovação unânime</u>.</li>
           <li><b>Duração mínima:</b> 30 minutos por treino.</li>
           <li>Postagens retroativas são permitidas <b>em até 24h</b>, sempre com <b>prova datada</b> (print do app com data ou mídia criada no dia). Sem prova datada, não vale.</li>
-          <li>Respeito no grupo: bom humor liberado, falta de respeito não é tolarada.</li>
+          <li>Sem spam: uma postagem por treino. Consolide múltiplos prints em uma imagem, se necessário.</li>
+          <li>Respeito no grupo: bom humor liberado, falta de respeito não.</li>
+          <li>Critérios e contagem podem ser ajustados para manter a justiça (sempre comunicados no grupo).</li>
         </ul>
       </div>
 
